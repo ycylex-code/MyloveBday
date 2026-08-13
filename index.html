@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#230c2c" />
+  <title>A Birthday Wish</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#fff8f2; --peach:#ffc9a9; --rose:#ff7a9b; --plum:#230c2c; --gold:#ffd36e; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; overflow-x:hidden; color:var(--ink); background:radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,12%), #7c315f 0, #42183f 20%, #230c2c 46%, #120712 100%); font-family:"DM Mono", monospace; transition:background .18s ease-out; }
+    .stars, .stars::before, .stars::after { position:fixed; inset:0; pointer-events:none; content:""; background-image:radial-gradient(#fff 1px, transparent 1.8px), radial-gradient(#ffd9a8 1px, transparent 1.8px); background-size:88px 88px, 131px 131px; background-position: 8px 10px, 47px 61px; opacity:.42; animation: drift 20s linear infinite; }
+    .stars::before { transform:rotate(18deg); opacity:.25; animation-duration:28s; }
+    @keyframes drift { to { background-position: 96px 98px, 138px 192px; } }
+    main { min-height:100vh; position:relative; display:grid; place-items:center; padding:32px 20px; }
+    .card { width:min(900px, 100%); text-align:center; position:relative; padding:clamp(38px, 7vw, 70px) clamp(24px, 8vw, 88px); border:1px solid rgba(255,226,200,.25); border-radius:28px; background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.025)); box-shadow:0 28px 90px #09000988, inset 0 1px #ffffff45; backdrop-filter:blur(12px); overflow:hidden; }
+    .card::after { content:""; width:250px; height:250px; position:absolute; top:-150px; right:-100px; border-radius:50%; background:#ff8a8250; filter:blur(25px); }
+    .eyebrow { color:var(--peach); font-size:11px; letter-spacing:.22em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-family:"Playfair Display", serif; font-size:clamp(48px, 10vw, 86px); line-height:.92; letter-spacing:-.055em; margin:0; font-weight:500; position:relative; z-index:1; }
+    h1 em { display:block; color:var(--peach); font-weight:500; }
+    .subtitle { margin:26px auto 32px; max-width:480px; color:#fff0e7; font-size:clamp(14px, 2vw, 16px); line-height:1.85; }
+    .cake { width:164px; height:122px; margin:6px auto 34px; position:relative; animation:float 4.5s ease-in-out infinite; }
+    .plate { position:absolute; bottom:0; left:4px; width:156px; height:14px; border-radius:50%; background:#ffe7d1; box-shadow:0 7px 0 #c96389; }
+    .layer { position:absolute; left:20px; width:124px; border-radius:13px 13px 9px 9px; background:linear-gradient(90deg, #ff8aac, #ffb17e 50%, #ff779d); box-shadow: inset 0 -9px #cc527c; }
+    .layer.one { height:34px; bottom:13px; } .layer.two { height:29px; width:100px; left:32px; bottom:42px; background:linear-gradient(90deg,#ffb57f,#ffd49f,#ff9ba8); }
+    .icing { position:absolute; left:33px; bottom:63px; width:98px; height:13px; border-radius:12px; background:#fff3de; }
+    .candle { position:absolute; bottom:76px; left:75px; width:14px; height:34px; border-radius:5px; background:repeating-linear-gradient(45deg,#ffe5a8 0 4px,#f77b94 4px 8px); }
+    .flame { position:absolute; left:74px; bottom:107px; width:17px; height:25px; border-radius:70% 30% 65% 35%; transform:rotate(-9deg); background:linear-gradient(#fff4a0,#ff9e45 60%,#ff5c69); box-shadow:0 0 18px 7px #ffb04b88; animation:flicker .9s ease-in-out infinite alternate; }
+    @keyframes float { 50% { transform:translateY(-8px) rotate(1deg); } } @keyframes flicker { to { transform:scale(.84,1.12) rotate(8deg); filter:brightness(1.15); } }
+    .reveal { font:500 12px "DM Mono", monospace; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; color:#311020; border:0; border-radius:100px; padding:17px 25px; background:linear-gradient(110deg,var(--peach),#fff0dc); box-shadow:0 10px 30px #ff8ca05c; transition:transform .2s, box-shadow .2s; }
+    .reveal:hover { transform:translateY(-3px); box-shadow:0 15px 35px #ff8ca078; }.reveal:focus-visible { outline:3px solid white; outline-offset:4px; }
+    .message { max-height:0; opacity:0; overflow:hidden; transform:translateY(8px); transition:max-height .7s ease, opacity .45s ease, transform .5s ease; }
+    .message.open { max-height:400px; opacity:1; transform:none; }
+    .message p { font-family:"Playfair Display",serif; font-style:italic; font-size:clamp(21px,4vw,30px); line-height:1.4; margin:35px auto 8px; max-width:560px; }
+    .signature { color:var(--gold); font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:18px; }
+    .actions { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .action { cursor:pointer; border:1px solid #ffe3d550; color:#fff4eb; border-radius:100px; padding:10px 14px; background:#ffffff12; font:500 10px "DM Mono",monospace; letter-spacing:.05em; text-transform:uppercase; transition:.2s; }
+    .action:hover { transform:translateY(-2px); background:#ffffff25; border-color:#ffe3d5a8; }.action.active { background:#fff0dc; color:#371224; }
+    .mini-note { min-height:23px; margin:18px 0 0; color:#ffdabd; font-family:"Playfair Display",serif; font-style:italic; font-size:18px; }
+    .portrait-wrap { margin:0 auto 28px; width:min(215px, 62vw); position:relative; }
+    .portrait { display:grid; place-items:center; width:100%; aspect-ratio:1; overflow:hidden; border-radius:50%; border:2px solid #ffe1c899; background:linear-gradient(145deg,#ffb28f44,#a64d8644); box-shadow:0 0 0 9px #ffffff08, 0 18px 44px #0e0317a0; }
+    .portrait img { width:100%; height:100%; object-fit:cover; display:none; }.portrait img.ready { display:block; }.portrait-placeholder { font-family:"Playfair Display",serif; font-style:italic; font-size:23px; color:#ffdbc8; padding:25px; }.portrait.has-image .portrait-placeholder { display:none; }
+    .next-page { display:inline-flex; align-items:center; gap:10px; margin-top:31px; color:#351222; text-decoration:none; background:linear-gradient(110deg,#ffd09d,#ff9eb4); border-radius:100px; padding:16px 22px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; box-shadow:0 10px 30px #ff84946b; transition:.2s; }.next-page:hover { transform:translateY(-3px); box-shadow:0 16px 34px #ff84948d; }.next-page span { font-size:18px; line-height:0; }
+    .spark { position:fixed; width:9px; height:9px; margin:-5px; border-radius:50%; pointer-events:none; z-index:5; background:#ffe59b; box-shadow:0 0 14px 5px #ffb16a77; animation:spark .75s ease-out forwards; } @keyframes spark { to { transform:translate(var(--spark-x),var(--spark-y)) scale(0); opacity:0; } }
+    .heart { position:fixed; color:#ff9bb3; pointer-events:none; z-index:5; font-size:22px; animation:heartUp 2.6s ease-out forwards; } @keyframes heartUp { to { transform:translate(var(--x),-115vh) rotate(24deg); opacity:0; } }
+    .confetti { position:fixed; width:9px; height:16px; top:-20px; border-radius:3px; pointer-events:none; animation:fall linear forwards; z-index:3; } @keyframes fall { to { transform:translate(var(--drift), 110vh) rotate(720deg); } }
+    footer { position:absolute; bottom:18px; color:#f9d9d333; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <main>
+    <section class="card" aria-labelledby="title">
+      <div class="portrait-wrap">
+        <div class="portrait has-image" id="portrait"><img class="ready" src="bday.jpg" alt="The birthday celebrant" onerror="this.classList.remove('ready');this.parentElement.classList.remove('has-image')"><div class="portrait-placeholder">Add bday.jpg<br>in VS Code</div></div>
+      </div>
+      <p class="eyebrow">A little moment, just for you</p>
+      <h1 id="title">Happy <em>Birthday My Loveee.</em></h1>
+      <p class="subtitle">Today is a reminder that the world became brighter the moment you arrived. Here’s to every beautiful thing still waiting for you.</p>
+      <div class="cake" role="img" aria-label="A birthday cake with one lit candle"><div class="flame"></div><div class="candle"></div><div class="icing"></div><div class="layer two"></div><div class="layer one"></div><div class="plate"></div></div>
+      <button class="reveal" id="reveal" type="button">Open your wish ✦</button>
+      <div class="actions" aria-label="Birthday surprises">
+        <button class="action" id="note" type="button">A sweet note</button>
+        <button class="action" id="hugs" type="button">Send hugs ♥</button>
+      </div>
+      <div class="mini-note" id="mini-note" aria-live="polite"></div>
+      <div class="message" id="message" aria-live="polite"><p>May this next chapter bring you soft mornings, brave dreams, and all the love you give so freely—returned to you in full.</p><div class="signature">With love, always</div></div>
+      <a class="next-page" href="surprise.html">Click here gorgeous <span>→</span></a>
+    </section>
+    <footer>Made for a very special person</footer>
+  </main>
+  <script>
+    const reveal=document.querySelector('#reveal'), message=document.querySelector('#message'), note=document.querySelector('#note'), hugs=document.querySelector('#hugs'), miniNote=document.querySelector('#mini-note');
+    reveal.addEventListener('click',()=>{ const opening=!message.classList.contains('open'); message.classList.toggle('open'); reveal.textContent=opening?'Make a wish ✦':'Open your wish ✦'; if(opening){ for(let i=0;i<75;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=['#ff7a9b','#ffd36e','#b8e0d2','#b6c7ff','#fff'][i%5];c.style.setProperty('--drift',(Math.random()-.5)*250+'px');c.style.animationDuration=(1.8+Math.random()*2.3)+'s';c.style.animationDelay=Math.random()*.35+'s';document.body.append(c);c.addEventListener('animationend',()=>c.remove());} } });
+    const notes=['You make ordinary days feel like a celebration.','The best things in life are even better with you.','Your smile is still my favorite little miracle.','Today, you deserve the whole sky full of good things.'];
+    note.addEventListener('click',()=>{miniNote.textContent=notes[Math.floor(Math.random()*notes.length)];});
+    hugs.addEventListener('click',()=>{for(let i=0;i<25;i++){const h=document.createElement('b');h.className='heart';h.textContent='♥';h.style.left=(25+Math.random()*50)+'vw';h.style.bottom='-30px';h.style.setProperty('--x',(Math.random()-.5)*360+'px');h.style.animationDelay=Math.random()*.4+'s';document.body.append(h);h.addEventListener('animationend',()=>h.remove());}});
+    window.addEventListener('pointermove',event=>{document.body.style.setProperty('--mouse-x',(event.clientX/window.innerWidth*100)+'%');document.body.style.setProperty('--mouse-y',(event.clientY/window.innerHeight*100)+'%');});
+    window.addEventListener('click',event=>{if(event.target.closest('button,input,label,a'))return;for(let i=0;i<7;i++){const s=document.createElement('i');s.className='spark';s.style.left=event.clientX+'px';s.style.top=event.clientY+'px';s.style.setProperty('--spark-x',(Math.random()-.5)*120+'px');s.style.setProperty('--spark-y',(Math.random()-.5)*120+'px');document.body.append(s);s.addEventListener('animationend',()=>s.remove());}});
+  </script>
+</body>
+</html>
